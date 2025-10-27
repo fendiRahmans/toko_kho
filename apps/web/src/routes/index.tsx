@@ -5,6 +5,8 @@ import Products from '../pages/Products'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import ProtectedRoute from '../components/ProtectedRoute'
+import PublicLayout from '../components/PublicLayout'
+import PrivateLayout from '../components/PrivateLayout'
 
 const AppRoutes = () => {
   return (
@@ -13,7 +15,9 @@ const AppRoutes = () => {
         path="/"
         element={
           <ProtectedRoute requireAuth={false}>
-            <Login />
+            <PublicLayout>
+              <Login />
+            </PublicLayout>
           </ProtectedRoute>
         }
       />
@@ -21,7 +25,9 @@ const AppRoutes = () => {
         path="/register"
         element={
           <ProtectedRoute requireAuth={false}>
-            <Register />
+            <PublicLayout>
+              <Register />
+            </PublicLayout>
           </ProtectedRoute>
         }
       />
@@ -29,7 +35,9 @@ const AppRoutes = () => {
         path="/home"
         element={
           <ProtectedRoute>
-            <Home />
+            <PrivateLayout>
+              <Home />
+            </PrivateLayout>
           </ProtectedRoute>
         }
       />
@@ -37,7 +45,9 @@ const AppRoutes = () => {
         path="/products"
         element={
           <ProtectedRoute>
-            <Products />
+            <PrivateLayout>
+              <Products />
+            </PrivateLayout>
           </ProtectedRoute>
         }
       />
@@ -45,7 +55,9 @@ const AppRoutes = () => {
         path="/about"
         element={
           <ProtectedRoute>
-            <About />
+            <PrivateLayout>
+              <About />
+            </PrivateLayout>
           </ProtectedRoute>
         }
       />

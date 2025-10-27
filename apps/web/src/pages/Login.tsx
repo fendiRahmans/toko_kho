@@ -59,10 +59,9 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
+      <Card className="w-full backdrop-blur-md bg-white/10 border border-white/10 rounded-2xl p-8 shadow-lg ">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Masuk ke Akun</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center text-gray-600">Masuk ke Akun</CardTitle>
           <CardDescription className="text-center">
             Masukkan email dan password Anda untuk melanjutkan
           </CardDescription>
@@ -70,7 +69,7 @@ const Login = () => {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-gray-600">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -83,7 +82,7 @@ const Login = () => {
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-gray-600">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -102,7 +101,7 @@ const Login = () => {
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300"
                 />
-                <Label htmlFor="remember" className="text-sm">
+                <Label htmlFor="remember" className="text-sm text-gray-600">
                   Ingat saya
                 </Label>
               </div>
@@ -134,7 +133,6 @@ const Login = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
   )
 }
 
