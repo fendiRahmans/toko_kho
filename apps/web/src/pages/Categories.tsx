@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -18,6 +18,7 @@ import {
   DialogTitle,
 } from '../components/ui/dialog'
 import ConfirmDialog from '../components/ConfirmDialog'
+import Pagination from '../components/Pagination'
 import {
   Table,
   TableBody,
@@ -26,6 +27,18 @@ import {
   TableHeader,
   TableRow,
 } from '../components/ui/table'
+
+// Debounce utility function
+function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: number
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), wait)
+  }
+}
 
 // Zod schema for category validation
 const categorySchema = z.object({
@@ -44,6 +57,24 @@ const Categories: React.FC = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [totalItems, setTotalItems] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      setSearchTerm(value)
+      setCurrentPage(1) // Reset to first page when searching
+    }, 500),
+    []
+  )
+
+  const handleSearchChange = (value: string) => {
+    debouncedSearch(value)
+  }
 
   const form = useForm<CategoryFormData>({
     resolver: zodResolver(categorySchema),
@@ -55,13 +86,42 @@ const Categories: React.FC = () => {
 
   useEffect(() => {
     loadCategories()
-  }, [])
+  }, [currentPage, itemsPerPage, searchTerm])
+
+  const handleItemsPerPageChange = (value: string) => {
+    setItemsPerPage(Number(value))
+    setCurrentPage(1) // Reset to first page when changing items per page
+  }
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
 
   const loadCategories = async () => {
     try {
       setLoading(true)
-      const response = await categoryService.findAll()
+      const response = await categoryService.findAll({
+        page: currentPage,
+        limit: itemsPerPage,
+        search: searchTerm || undefined,
+      })
       setCategories(response.data)
+      setTotalItems(response.meta.total)
+      setTotalPages(response.meta.totalPages)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred'
       setError('Failed to load categories')
@@ -150,8 +210,28 @@ const Categories: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 backdrop-blur-md bg-white/10 border border-white/10 rounded-2xl shadow-lg">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6">
         <h1 className="text-3xl font-bold">Categories</h1>
+      </div>
+
+      <div className="flex justify-between items-center mb-6">
+        <div className="relative max-w-sm">
+          <Input
+            type="text"
+            placeholder="Search categories..."
+            value={searchTerm}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="pr-8"
+          />
+          {searchTerm && (
+            <button
+              onClick={() => handleSearchChange('')}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
+              ×
+            </button>
+          )}
+        </div>
         <Button onClick={handleAddNew} disabled={showForm}>
           Add Category
         </Button>
@@ -251,6 +331,17 @@ const Categories: React.FC = () => {
           </TableBody>
         </Table>
       </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        onPageChange={handlePageChange}
+        onItemsPerPageChange={handleItemsPerPageChange}
+        onPreviousPage={handlePreviousPage}
+        onNextPage={handleNextPage}
+      />
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from '../pages/Home'
-import About from '../pages/About'
 import Products from '../pages/Products'
 import Categories from '../pages/Categories'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
+import NotFound from '../pages/NotFound'
 import ProtectedRoute from '../components/ProtectedRoute'
 import PublicLayout from '../components/PublicLayout'
 import PrivateLayout from '../components/PrivateLayout'
@@ -63,13 +63,11 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/about"
+        path="*"
         element={
-          <ProtectedRoute>
-            <PrivateLayout>
-              <About />
-            </PrivateLayout>
-          </ProtectedRoute>
+          <PublicLayout>
+            <NotFound />
+          </PublicLayout>
         }
       />
     </Routes>

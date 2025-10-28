@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/auth'
-import { Home, Package, Tag, Info, LogOut } from 'lucide-react'
+import { Package, Tag, LogOut, LayoutDashboard } from 'lucide-react'
 
 const Navigation = () => {
   const { isAuthenticated, logout } = useAuth()
@@ -25,8 +25,8 @@ const Navigation = () => {
         <div className="space-y-4">
           <Link to="/home" className={getLinkClass('/home')}>
             <div className="flex items-center space-x-2">
-              <Home size={18} />
-              <span>Home</span>
+              <LayoutDashboard size={18} />
+              <span>Dashboard</span>
             </div>
           </Link>
           <Link to="/products" className={getLinkClass('/products')}>
@@ -39,12 +39,6 @@ const Navigation = () => {
             <div className="flex items-center space-x-2">
               <Tag size={18} />
               <span>Categories</span>
-            </div>
-          </Link>
-          <Link to="/about" className={getLinkClass('/about')}>
-            <div className="flex items-center space-x-2">
-              <Info size={18} />
-              <span>About</span>
             </div>
           </Link>
         </div>
