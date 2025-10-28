@@ -59,8 +59,7 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
+      <Card className="w-full backdrop-blur-md bg-white/10 border border-white/10 rounded-2xl p-8 shadow-lg ">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Daftar Akun</CardTitle>
           <CardDescription className="text-center">
@@ -75,6 +74,7 @@ const Register = () => {
                 id="email"
                 type="email"
                 placeholder="Masukkan email Anda"
+                className={errors.email ? 'border-red-500 focus:ring-red-500' : ''}
                 {...register('email')}
               />
               {errors.email && (
@@ -87,6 +87,7 @@ const Register = () => {
                 id="password"
                 type="password"
                 placeholder="Masukkan password"
+                className={errors.password ? 'border-red-500 focus:ring-red-500' : ''}
                 {...register('password')}
               />
               {errors.password && (
@@ -99,6 +100,7 @@ const Register = () => {
                 id="confirmPassword"
                 type="password"
                 placeholder="Konfirmasi password"
+                className={errors.confirmPassword ? 'border-red-500 focus:ring-red-500' : ''}
                 {...register('confirmPassword')}
               />
               {errors.confirmPassword && (
@@ -119,7 +121,6 @@ const Register = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
   )
 }
 

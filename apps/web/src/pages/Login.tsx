@@ -45,7 +45,15 @@ const Login = () => {
         email: data.email,
         password: data.password,
       })
-      login(response.access_token)
+      // Dummy user data - in real app, this would come from API
+      const user = {
+        id: 1,
+        name: 'John Doe',
+        email: data.email,
+        role: 'Admin',
+        photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+      }
+      login(response.access_token, user)
       toast.success('Login berhasil!')
       navigate('/home')
     } catch (error) {

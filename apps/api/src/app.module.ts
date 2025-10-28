@@ -3,6 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
+import { CategoryModule } from './category/category.module';
+import { ProductModule } from './product/product.module';
+import { Category } from './category/category.entity';
+import { Product } from './product/product.entity';
 
 @Module({
   imports: [
@@ -13,11 +17,13 @@ import { User } from './users/user.entity';
       username: 'root',
       password: '',           // isi sesuai password MySQL kamu
       database: 'toko_kho',
-      entities: [User],
+      entities: [User, Category, Product],
       synchronize: true,      // hanya untuk development
     }),
     UsersModule,
     AuthModule,
+    CategoryModule,
+    ProductModule,
   ],
 })
 export class AppModule {}

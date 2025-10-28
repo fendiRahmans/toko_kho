@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from '../pages/Home'
 import About from '../pages/About'
 import Products from '../pages/Products'
+import Categories from '../pages/Categories'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import ProtectedRoute from '../components/ProtectedRoute'
@@ -47,6 +48,16 @@ const AppRoutes = () => {
           <ProtectedRoute>
             <PrivateLayout>
               <Products />
+            </PrivateLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/categories"
+        element={
+          <ProtectedRoute>
+            <PrivateLayout>
+              <Categories />
             </PrivateLayout>
           </ProtectedRoute>
         }
