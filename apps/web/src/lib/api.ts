@@ -32,7 +32,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Token expired or invalid, clear token and redirect to login
       localStorage.removeItem('authToken')
-      window.location.href = '/login'
+      window.location.href = '/'
     }
 
     // You can add more error handling here
