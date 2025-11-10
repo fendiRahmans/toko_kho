@@ -1,18 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { toast } from 'sonner'
+import * as z from 'zod'
+import ConfirmDialog from '../components/ConfirmDialog'
+import Pagination from '../components/Pagination'
 import { Button } from '../components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog'
 import { Input } from '../components/ui/input'
 import { Label } from '../components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table'
 import { Textarea } from '../components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip'
-import ConfirmDialog from '../components/ConfirmDialog'
-import Pagination from '../components/Pagination'
 import { formatCurrency } from '../lib/utils'
 import { categoryService, type Category } from '../services/category'
 import { productService, type Product } from '../services/product'
@@ -212,12 +212,12 @@ const Products: React.FC = () => {
     setProductToDelete(null)
   }
 
-  const resetForm = () => {
-    setIsCreateDialogOpen(false)
-    setEditingProduct(null)
-    form.reset()
-    setPriceInput('')
-  }
+  // const resetForm = () => {
+  //   setIsCreateDialogOpen(false)
+  //   setEditingProduct(null)
+  //   form.reset()
+  //   setPriceInput('')
+  // }
 
   const handleDialogChange = (open: boolean) => {
     setIsCreateDialogOpen(open)
